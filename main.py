@@ -110,7 +110,6 @@ def get_batch(symbol, interval='1m', start_time=0, limit=1440, retries=5, timeou
                 time.sleep(1)
 
         data = response.json()  # typically a list (either lists or dicts)
-        print(data)
         if not isinstance(data, list):
             data = []
         # Bitvavo returns newest->oldest; make ascending for downstream logic
