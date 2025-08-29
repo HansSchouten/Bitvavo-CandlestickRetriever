@@ -1,0 +1,9 @@
+# ignore the data directories
+data/*
+compressed/*
+
+.idea/*
+
+# macOS junk files
+.DS_Store
+__pycache__
