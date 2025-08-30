@@ -56,7 +56,8 @@ def quick_clean(df):
         df = df[df['open_time'].duplicated() == False]
 
     # sort by timestamp, oldest first
-    df.sort_values(by=['open_time'], ascending=False)
+    df = df.sort_values(by=['open_time'], ascending=True)
+    df.reset_index(drop=True, inplace=True)
 
     # just a doublcheck
     assert_integrity(df)
@@ -115,6 +116,7 @@ def write_raw_to_parquet(df, full_path):
     df_copy.reset_index(drop=True, inplace=True)
 
     df_copy.to_parquet(full_path)
+    return df_copy
 
 
 def groom_data(dirname='data'):
