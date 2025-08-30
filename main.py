@@ -1,19 +1,14 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import json
 import os
-import random
-import subprocess
-import sys
 import time
-from datetime import date, datetime, timedelta
 import numpy as np
 import requests
 import pandas as pd
 import preprocessing as pp
+from datetime import datetime
 
-START_TIME = (datetime.now() - timedelta(hours=0, minutes=5))
 API_BASE = 'https://api.bitvavo.com/v2/'   # Bitvavo REST base
 
 # Keep same column order you expect elsewhere
@@ -23,8 +18,7 @@ LABELS = [
     'high',
     'low',
     'close',
-    'volume',
-    'quote_asset_volume'
+    'volume'
 ]
 
 # Map a few common intervals to milliseconds (extend if you need more)
@@ -40,7 +34,7 @@ INTERVAL_MS = {
 def _normalize_candle_row(row):
     """
     Normalize Bitvavo candle rows (which may be dicts or lists)
-    into [open_time, open, high, low, close, volume, quote_asset_volume]
+    into [open_time, open, high, low, close, volume]
     with ms timestamps and string numeric fields preserved (like your flow).
     """
     if isinstance(row, dict):
@@ -56,7 +50,7 @@ def _normalize_candle_row(row):
         # Some clients return strings, others numbers; keep as strings like Bitvavo flow
         ts, o, h, l, c, v = row[0], row[1], row[2], row[3], row[4], row[5]
 
-    return [int(ts), str(o), str(h), str(l), str(c), str(v), np.nan]  # Bitvavo doesn’t return quote volume
+    return [int(ts), str(o), str(h), str(l), str(c), str(v)]
 
 def get_batch(symbol, interval='1m', start_time=0, limit=1440, retries=5, timeout=30):
     """

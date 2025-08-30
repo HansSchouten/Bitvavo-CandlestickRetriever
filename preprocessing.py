@@ -16,8 +16,7 @@ def set_dtypes(df):
         'high': 'float64',
         'low': 'float64',
         'close': 'float64',
-        'volume': 'float64',
-        'quote_asset_volume': 'float64',
+        'volume': 'float64'
     })
 
     return df
@@ -35,8 +34,7 @@ def set_dtypes_compressed(df):
         'high': 'float32',
         'low': 'float32',
         'close': 'float32',
-        'volume': 'float32',
-        'quote_asset_volume': 'float32',
+        'volume': 'float32'
     })
 
     return df
@@ -79,7 +77,6 @@ def add_missing_minutes(initial_data):
             while current['datetime'] + timedelta(minutes=1) < row['datetime']:
                 current['datetime'] = current['datetime'] + timedelta(minutes=1)
                 current['volume'] = 0
-                current['quote_asset_volume'] = 0
                 current['low'] = current['close']
                 current['high'] = current['close']
                 current['open'] = current['close']
